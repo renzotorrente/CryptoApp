@@ -1,0 +1,14 @@
+com/coinsapp/MainApplication.java
+ com.coinsapp.MainApplication
+ com.coinsapp.MainApplication$1
+com/coinsapp/MainActivity.java
+ com.coinsapp.MainActivity
+com/coinsapp/BuildConfig.java
+ com.coinsapp.BuildConfig
+com/coinsapp/ReactNativeFlipper.java
+ com.coinsapp.ReactNativeFlipper
+ com.coinsapp.ReactNativeFlipper$1
+ com.coinsapp.ReactNativeFlipper$2
+ com.coinsapp.ReactNativeFlipper$2$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
