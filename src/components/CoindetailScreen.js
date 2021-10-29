@@ -1,17 +1,36 @@
 import React from 'react';
 import { Component } from 'react';
-import { View, Text, Image, StyleSheet, SectionList } from 'react-native';
+import { View, Text, Image, StyleSheet, SectionList, Pressable } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Http from '../libs/http';
 import colors from '../res/colors';
+import Storage from '../../src/libs/storage';
 import { CoinDetail, CoinMarketItem } from './coindetails/CoinMarketItem';
 
 class CoinDetailScreen extends Component{
 
 state = {
  coin:{},
- markets:[]
+ markets:[],
+ isfavorite:false
 } 
+Togglefavorite(){
+if(this.state.isfavorite){
+
+}else{
+this.addfavorite();
+}
+
+}
+async addfavorite (){
+  const coin = JSON.stringify(this.state.coin);
+  const key = `favorite-${this.state.coin.id}`;
+  const stored = await Storage.instance.store(key, coin);
+  console.log("stored", stored);
+  if(stored){ //si quedó guardado
+  this.setState({isfavorite:true});
+  }
+}
    
 async getMarkets  (coinId){
   const url = `https://api.coinlore.net/api/coin/markets/?id=${coinId}`; 
@@ -52,12 +71,24 @@ return data;
  }
 
 render(){
-    let {coin, markets} = this.state
+    let {coin, markets, isfavorite} = this.state
     return (
      <View style={styles.container}>
      <View style={styles.subheader}>
+    <View style={styles.row}>
+
     <Image style={styles.imageremote} source={{uri: this.getSymbolIcon(coin.name) }}></Image>
-    <Text style={styles.titleText}>{coin.name}</Text>
+    <Text style={styles.titleText}>{coin.name}</Text>  
+    </View> 
+    
+    <Pressable 
+    onPress={this.Togglefavorite}
+    style={[
+      styles.bottonfav,
+      isfavorite ? styles.bottonfavRem : styles.bottonfavAdd
+    ]}>
+      <Text style={styles.bottonfavText}>{isfavorite ? "Remove currency" : "Add to fav" }</Text>
+      </Pressable>
      </View>
      <SectionList 
      style={styles.section}
@@ -91,10 +122,14 @@ const styles = StyleSheet.create({
   width:25,
   height:25  
  },
+ row:{
+   flexDirection:"row"
+ },
  subheader:{
     backgroundColor: 'rgba(0,0,0,0.2)',
     padding: 16,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent:"space-between"
  },
  titleText: {
     fontSize: 16,
@@ -133,6 +168,20 @@ sectionText: {
   fontWeight: 'bold',
 
 },
+bottonfav:{
+  padding:8,
+  borderRadius:8,
+  
+},
+bottonfavAdd:{
+  backgroundColor:colors.picton,
+},
+bottonfavText:{
+color:colors.white
+},
+bottonfavRem:{
+  backgroundColor:colors.carmine
+}
   
 
 })
