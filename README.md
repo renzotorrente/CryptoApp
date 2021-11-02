@@ -2,4 +2,4 @@
 
 <h5>application created with react native provides information on the cryptocurrency market<h5/> </br> 
 <p>app finished </p>
-https://ibb.co/Dz6rzJQ
+<img src="https://ibb.co/Dz6rzJQ" /img>
